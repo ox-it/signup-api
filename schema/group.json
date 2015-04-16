@@ -1,0 +1,166 @@
+{
+    "type": "object",
+    "properties": {
+        "uuid": {
+            "type": "string",
+            "title": "UUID",
+            "format": "uuid",
+            "description": "The identifier for this group, used as a primary key"
+        },
+        "title": {
+            "type": "string",
+            "title": "title",
+            "description": "A display name for this group in user interfaces"
+        },
+        "description": {
+            "type": "string",
+            "title": "description",
+            "description": "More information about this group, using the Markdown lightwight markup language",
+            "format": "markdown"
+        },
+        "profile": {
+            "type": "string",
+            "title": "profile",
+            "description": "A profile defines a set of attributes for a group. Once set, it cannot be changed, nor can the attributes it defines.",
+            "enum": ["freshersSignup", "attendance", "voting"]
+        },
+        "signupStart": {
+            "type": "string",
+            "format": "date-time",
+            "title": "sign-up start",
+            "description": "When it first becomes possible to add people to the members collection for this group. Must include timezone information."
+        },
+        "signupEnd": {
+            "type": "string",
+            "format": "date-time",
+            "title": "sign-up end",
+            "description": "When it becomes no longer possible to add people to the members collection for this group. Must include timezone information."
+        },
+        "hideMembers": {
+            "type": "string",
+            "title": "member hiding",
+            "description": "Defines in which circumstances membership is hidden from the owner and admins",
+            "enum": ["alwaysVisible", "hideMembersUntilClosed", "hideMembersAndCountsUntilClosed", "alwaysHideMembers"]
+        },
+        "useExpectedCollection": {
+            "type": "string",
+            "title": "how to use expected collection",
+            "description": "Whether to use the expected collection, and if so, whether to still accept sign-ups from outside that collection.",
+            "enum": ["no", "optional", "mandatory"]
+        },
+        "allowSelfSignup": {
+            "type": "boolean",
+            "title": "allow self-sign-up?",
+            "description": "If true, authenticated users can add themselves to this group."
+        },
+        "created": {
+            "type": "string",
+            "format": "date-time",
+            "title": "created",
+            "description": "When this group was created. Cannot be modified."
+        },
+        "memberCount": {
+            "type": "integer",
+            "title": "number of members",
+            "description": "The number of people in the members collection. Cannot be updated directly."
+        },
+        "expectedCount": {
+            "type": "integer",
+            "title": "number of people expected",
+            "description": "The number of people in the expected collection. Cannot be updated directly."
+        },
+        "maximumMmemberCount": {
+            "type": "integer",
+            "title": "maximum number of members",
+            "description": "The number of people in the members collection. Cannot be updated directly."
+        },
+        "maximumExpectedCount": {
+            "type": "integer",
+            "title": "maximum number of people that can be expected",
+            "description": "The number of people in the expected collection. Cannot be updated directly."
+        },
+        "_links": {
+            "type": "object",
+            "properties": {
+                "owner": {
+                    "$ref": "#/definitions/account-link"
+                },
+                "admins": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/account-link",
+                        "uniqueItems": true
+                    }
+                },
+                "submitters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/account-link",
+                        "uniqueItems": true
+                    }
+                },
+                "members": {
+                    "$ref": "#/definitions/person-collection-link"
+                },
+                "expected": {
+                    "$ref": "#/definitions/person-collection-link"
+                },
+                "unaccountedFor": {
+                    "$ref": "#/definitions/person-collection-link"
+                }
+            }
+        }
+    },
+    "additionalProperties": false,
+    "requiredProperties": ["title"],
+    "definitions": {
+        "account-link": {
+            "type": "object",
+            "properties": {
+                "href": {
+                    "type": "string",
+                    "pattern": "^/account/[a-z\\d]{1,8}$",
+                    "title": "owner",
+                    "description": "The href for the resource description for this account."
+                },
+                "title": {
+                    "type": "string",
+                    "title": "name",
+                    "description": "The name associated with this account"
+                },
+                "username": {
+                    "type": "string",
+                    "pattern": "^[a-z\\d]{1,8}$",
+                    "title": "SSO username",
+                    "description": "The SSO username associated with this account"
+                }
+            },
+            "additionalProperties": false,
+            "requiredProperties": ["href", "title"]
+        },
+        "person-collection-link": {
+            "type": "object",
+            "properties": {
+                "href": {
+                    "type": "string",
+                    "pattern": "^/group/[a-z\\d]{1,8}$",
+                    "title": "owner",
+                    "description": "The href for the resource description for this account."
+                },
+                "title": {
+                    "type": "string",
+                    "title": "name",
+                    "description": "The name associated with this account"
+                },
+                "username": {
+                    "type": "string",
+                    "pattern": "^[a-z\\d]{1,8}$",
+                    "title": "SSO username",
+                    "description": "The SSO username associated with this account"
+                }
+            },
+            "additionalProperties": false,
+            "requiredProperties": ["href", "title"]
+        }
+    }
+}
